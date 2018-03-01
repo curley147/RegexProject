@@ -9,6 +9,10 @@ func intoPostFix(infix string) string {
 
 	postFix, stack := []rune{}, []rune{}
 
+	for _, r := range infix{
+
+	}
+
 	return string(postFix)
 }
 
