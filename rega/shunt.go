@@ -5,8 +5,9 @@ import (
 )
 
 func intoPostFix(infix string) string {
-	postFix, stack := []rune{}, []rune{}
+	specials := map[rune]int{"*":10, ".":9, "|":8}
 
+	postFix, stack := []rune{}, []rune{}
 
 	return string(postFix)
 }
