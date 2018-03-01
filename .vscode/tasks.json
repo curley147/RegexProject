@@ -10,7 +10,9 @@
             "isShellCommand": true,
             "isBuildCommand": true,
             "showOutput": "always",
-            "args": ["${relativeFile}"],
+            "args": [
+                "${relativeFile}"
+            ],
         }
     ]
 }
