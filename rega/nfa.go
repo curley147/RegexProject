@@ -87,8 +87,65 @@ func poregtonfa(postFix string) *nfaFrag {
 
 }
 
+//function to add states to array of pointers (current/next)
+func addState(l []*state, s *state, a *state) []*state {
+	//adding desired state to array
+	l = append(l, s)
+	//checking it isnt the accept state and its arrow label is e
+	if s != a && s.symbol == 0 {
+		//adding states meeting above condition
+		l = addState(l, s.edge1, a)
+		//if there's a 2nd edge add relevant state
+		if s.edge2 != nil {
+			l = addState(l, s.edge2, a)
+		}
+	}
+	//returning new current array
+	return l
+}
+
+//function returning boolean on a regular expression matching a given string
+func postFixMatch(postFix string, str string) bool {
+	//set returned boolean to false to start
+	matched := false
+
+	//convert postfix regex to an non-determistic finite automata
+	pfixNfa := poregtonfa(postFix)
+
+	//array of state pointers containing all the current states of nfa
+	current := []*state{}
+
+	//after reading a character from the string this contains all next states
+	next := []*state{}
+
+	current = addState(current[:], pfixNfa.initial, pfixNfa.accept)
+	//looping through given string one rune at a time
+	for _, r := range str {
+		//looping through array of current states
+		for _, c := range current {
+			//if current rune is the same as the arrow labels of the current state
+			if c.symbol == r {
+				next = addState(next[:], c.edge1, pfixNfa.accept)
+			}
+		}
+
+		//setting current array to next(making move) for next rune being read in and resetting next array to null
+		current, next = next, []*state{}
+	}
+	//loop through current states after nfa is finished
+	for _, c := range current {
+		//if one of the current states is an accept state its a mathc
+		if c == pfixNfa.accept {
+			matched = true
+			break
+		}
+	}
+
+	//returning whether it's a match or not
+	return matched
+}
+
 func main() {
 
-	nfa := poregtonfa("ab.c*|")
-	fmt.Println(nfa)
+	fmt.Println(postFixMatch("ab.c*|", "a"))
 }
