@@ -30,4 +30,4 @@ Run the executable produced.
 
 Special characters included in my regular expression engine are '*', '+', '?', '|' and '.' 
 When entering the desired regular expression no two non-special characters should be together. Use 
-the concatenating operater '.' to match one character after another(i.e enter a.b*.c+ instead of ab*c+)
+the concatenating operater '.' to match one character after another(i.e enter a.b?.c+ instead of ab?c+)
