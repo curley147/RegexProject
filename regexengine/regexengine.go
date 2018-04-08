@@ -219,26 +219,43 @@ func postFixMatch(postFix string, str string) bool {
 }
 
 func main() {
-	//ask for user input
-	fmt.Print("Enter Regular Expression: ")
-	var regex string
-	fmt.Scanln(&regex)
-	if regex == "" {
-		fmt.Println("No empty strings please")
-		return
+	//boolean variables used to control UI loop
+	var exit bool
+	var change bool
+
+	for exit == false{
+		//ask for user input
+		fmt.Print("Enter Regular Expression: ")
+		var regex string
+		fmt.Scanln(&regex)
+		if regex == "" {
+			fmt.Println("No empty strings please")
+			break
+		}
+		for change ==false{
+			fmt.Print("Enter String('e' to exit or 'c' to change regular expression): ")
+			var str string
+			fmt.Scanln(&str)
+			if str == "e"{
+				exit = true
+				return
+			} else if str == "c"{
+				break
+			} else {
+				//convert given regular expression into postfix notation
+				postFixRegex := IntoPostFix(regex)
+				//check if its a match by converting postfix to nfa and
+				//then going through the nfa and seeing if you finish in an accept state
+				matched := postFixMatch(postFixRegex, str)
+				//output result to user
+				if matched == true {
+					fmt.Print("It's a match \n")
+				} else {
+					fmt.Print("It's not a match \n")
+				}
+			}
+		}
+		
 	}
-	fmt.Print("Enter String: ")
-	var str string
-	fmt.Scanln(&str)
-	//convert given regular expression into postfix notation
-	postFixRegex := IntoPostFix(regex)
-	//check if its a match by converting postfix to nfa and
-	//then going through the nfa and seeing if you finish in an accept state
-	matched := postFixMatch(postFixRegex, str)
-	//output result to user
-	if matched == true {
-		fmt.Print("It's a match")
-	} else {
-		fmt.Print("It's not a match")
-	}
+	
 }
